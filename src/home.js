@@ -4,7 +4,7 @@ class Home extends Component {
     constructor() {
         super();
         this.state = {
-            list: [
+            products: [
                 {name: 'bánh đa', price: 900},
                 {name: 'bánh kem', price: 400},
                 {name: 'bánh chuối', price: 300}
@@ -21,10 +21,10 @@ class Home extends Component {
         this.setState(
             {
                 products: [...this.state.products, {
-                    name: this.state.inputName,
+                    name: this.state.inName,
                     price: this.state.inPrice
                 }],
-                inputName: '',
+                inName: '',
                 inPrice: ''
             }
         )
@@ -34,7 +34,7 @@ class Home extends Component {
     }
     showValueEdit = (e) => {
         let a = e.target.value
-        this.state.list.map((item, ind) => {
+        this.state.products.map((item, ind) => {
             if (ind === +a) {
                 this.setState({inName: item.name})
                 this.setState({inPrice: item.price})
@@ -49,7 +49,7 @@ class Home extends Component {
     }
     edit = () => {
         this.setState((state) => {
-            state.list.map((item, ind) => {
+            state.products.map((item, ind) => {
                 if (ind === +state.ind) {
                     item.name = state.inName
                     item.price = state.inPrice
@@ -67,23 +67,23 @@ class Home extends Component {
     render() {
         return (
             <>
-                {this.state.list.map((item, ind) => (
-                    <>
+                {this.state.products.map((item, ind) => (
+                    <div key={ind}>
                         <h1 key={ind}>name: {item.name} - price: {item.price}$</h1>
-                        <button value={ind} key={ind} onClick={(e) => {this.showValueEdit(e)}}>Edit</button>
+                        <button value={ind}  onClick={(e) => {this.showValueEdit(e)}}>Edit</button>
                         {!this.state.isShow && <>
-                            <button key={ind} onClick={(e) => {
+                            <button  onClick={(e) => {
                                 this.setState( state => {
-                                    let oldList = [...state.list];
-                                    oldList.splice(ind, 1);
+                                    let oldProducts = [...state.products];
+                                    oldProducts.splice(ind, 1);
                                     return {
-                                        list: oldList
+                                        products: oldProducts
                                     }
                                 })
                             }}>Delete</button>
                         </>}
                         <br/>
-                    </>
+                    </div>
                 ))}
                 <br/>
                 <input placeholder={"name"} type="text" name={"inName"} value={this.state.inName} onChange={this.change}/>
