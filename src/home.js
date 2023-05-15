@@ -5,12 +5,12 @@ class Home extends Component {
         super();
         this.state = {
             list: [
-                {name: 'Hieu', age: 23},
-                {name: 'DA', age: 25},
-                {name: 'Linh', age: 22}
+                {name: 'bánh đa', price: 900},
+                {name: 'bánh kem', price: 400},
+                {name: 'bánh chuối', price: 300}
             ],
             inName: '',
-            inAge: '',
+            inPrice: '',
             ind: '',
             name: '',
             isShow: false
@@ -18,13 +18,16 @@ class Home extends Component {
     }
 
     add = () => {
-        this.setState((state) => {
-            return {
-                list: [...state.list, {name: this.state.inName, age: this.state.inAge}],
-                inName: '',
-                inAge: ''
+        this.setState(
+            {
+                products: [...this.state.products, {
+                    name: this.state.inputName,
+                    price: this.state.inPrice
+                }],
+                inputName: '',
+                inPrice: ''
             }
-        })
+        )
     }
     change = (e) => {
         this.setState({[e.target.name]: e.target.value})
@@ -34,7 +37,7 @@ class Home extends Component {
         this.state.list.map((item, ind) => {
             if (ind === +a) {
                 this.setState({inName: item.name})
-                this.setState({inAge: item.age})
+                this.setState({inPrice: item.price})
                 this.setState({ind: a})
             }
         })
@@ -49,13 +52,13 @@ class Home extends Component {
             state.list.map((item, ind) => {
                 if (ind === +state.ind) {
                     item.name = state.inName
-                    item.age = state.inAge
+                    item.price = state.inPrice
                 }
             })
             return {
                 state,
                 inName: '',
-                inAge: '',
+                inPrice: '',
                 isShow: false
             }
         })
@@ -66,30 +69,25 @@ class Home extends Component {
             <>
                 {this.state.list.map((item, ind) => (
                     <>
-                        <h1 key={ind}>name: {item.name} - age: {item.age}</h1>
-                        <button value={ind} key={ind} onClick={(e) => {
-                            this.showValueEdit(e)
-                        }}>Edit
-                        </button>
+                        <h1 key={ind}>name: {item.name} - price: {item.price}$</h1>
+                        <button value={ind} key={ind} onClick={(e) => {this.showValueEdit(e)}}>Edit</button>
                         {!this.state.isShow && <>
                             <button key={ind} onClick={(e) => {
-                                this.setState(state => {
+                                this.setState( state => {
                                     let oldList = [...state.list];
                                     oldList.splice(ind, 1);
                                     return {
                                         list: oldList
                                     }
                                 })
-                            }}>Delete
-                            </button>
+                            }}>Delete</button>
                         </>}
                         <br/>
                     </>
                 ))}
                 <br/>
-                <input placeholder={"name"} type="text" name={"inName"} value={this.state.inName}
-                       onChange={this.change}/>
-                <input placeholder={"age"} type="text" name={"inAge"} value={this.state.inAge} onChange={this.change}/>
+                <input placeholder={"name"} type="text" name={"inName"} value={this.state.inName} onChange={this.change}/>
+                <input placeholder={"price"} type="text" name={"inPrice"} value={this.state.inPrice} onChange={this.change}/>
                 {!this.state.isShow && <button onClick={this.add}>ADD</button>}
                 {this.state.isShow && <button onClick={this.edit}>Edit</button>}
                 <br/>
